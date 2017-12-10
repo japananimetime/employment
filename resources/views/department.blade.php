@@ -1,4 +1,4 @@
-<?php //echo '<pre>'; print_r($employee); echo '</pre>';?>
+<!-- <?php// echo '<pre>'; print_r($genderP); echo '</pre>';?> -->
 <!DOCTYPE html>
 <html>
 
@@ -30,40 +30,45 @@
       <div class="row">
         <div class="col-md-1 ">
         </div>
-        <div class="col-md-6 ">
-          <h2 class="display-4">{{$employee["info"][0]->first_name}} {{$employee["info"][0]->last_name}}</h2>
-          <h2 style="display: inline" class="">Born:&nbsp;</h2><h4 style="display: inline" class="">{{$employee["info"][0]->birth_date}}</h4><br>
-          <h2 class="" style="display: inline">Gender:&nbsp;</h2><h4 style="display: inline">
-            <?php 
-              if ($employee["info"][0]->gender == 'M'):
-                echo 'Male';
-              else:
-                echo 'Female';
-              endif;
-            ?>
-              </h4><br>
-          <h2 style="display: inline" class="">Hired:&nbsp;</h2><h4 style="display: inline">{{$employee["info"][0]->hire_date}}
-            <br>
-          </h4>
-          <h2 class="">Part of:
+        <div class="col-md-5 ">
+          <h2 class="display-4">{{$dept_name["0"]->dept_name}}</h2>
+          <br>
+          <h2 style="display: inline" class="">Workers:&nbsp;</h2><h4 style="display: inline" class="">{{$workers}}</h4><br>
+          <br>
+          <h2 class="" style="display: inline">Average salary:&nbsp;</h2><h4 style="display: inline">${{$currentSalaryAVG["0"]->salary}}</h4><br>
+          <br>
+          <h2 class="">Manager:
             <br>
           </h2>
-          @foreach ($employee["departments"] as $department)
-            <h4 class="px-5"><a href="/department/{{$department->dept_no}}">{{$department->dept_name}} department</a></h4>
-            <h6 class="text-muted px-5">{{$department->from_date}} till 
+            @foreach ($manager as $man)
+            <h4 class="px-5"><a href="/employee/{{$man->emp_no}}">{{$man->first_name}} {{$man->last_name}}</a></h4>
+            <h6 class="text-muted px-5">{{$man->from_date}} till 
               <?php 
-                if ($department->to_date == '9999-01-01'):
+                if ($man->to_date == '9999-01-01'):
                   echo 'nowadays';
                 else:
-                  echo $department->to_date;
+                  echo $man->to_date;
                 endif;
               ?>
-                  </h6>            
-          @endforeach
-          <h2 class="">Title: </h2><h4 class="px-5">@foreach ($employee["titles"] as $title){{$title->title}} since {{$title->from_date}} <br>@endforeach</h4>
+            </h6>            
+          @endforeach      
         </div>
-        <div class="col-md-5 "><br><br><br> Salary though the years:
-          <div id="myDiv"></div>
+        <div class="col-md-5 "><br><br><br> 
+          <details>
+            <summary>
+              Average salary of the worker in the department through the years:
+            </summary>
+            <div id="myDiv"></div>
+          </details>
+          <br>
+          <details>
+            <summary>
+              Gender proportion in the department
+            </summary>
+            <div id="pie"></div>
+          </details>
+        </div>
+        <div class="col-md-1 ">
         </div>
       </div>      
     </div>
@@ -71,13 +76,31 @@
   <script type="text/javascript">
     var data = [
       {
-        x: [@foreach ($employee["salaries"] as $salary) '{{$salary->from_date}}',@endforeach],
-        y: [@foreach ($employee["salaries"] as $salary) '{{$salary->salary}}',@endforeach],
+        x: [@foreach ($deptData as $period) '{{$period->Year}}',@endforeach],
+        y: [@foreach ($deptData as $period) '{{$period->salary}}',@endforeach],
         type: 'scatter'
       }
     ];
+      var layout = {
+        height: 400,
+        width: 500
+      };
 
-    Plotly.newPlot('myDiv', data);
+    Plotly.newPlot('myDiv', data, layout);
+  </script>
+    <script type="text/javascript">
+      var data = [{
+        values: [{{$genderP["0"]->c}}, {{$genderP["1"]->c}}],
+        labels: ['Male', 'Female'],
+        type: 'pie'
+      }];
+
+      var layout = {
+        height: 400,
+        width: 500
+      };
+
+    Plotly.newPlot('pie', data, layout);
   </script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>

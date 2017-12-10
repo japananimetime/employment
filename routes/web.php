@@ -15,3 +15,6 @@ Route::get('/', 'MainController@getCurrentWorkersPaginated');
 Route::get('/filter', 'MainController@getCurrentWorkersByDepartmentPaginated');
 Route::get('/search', 'MainController@searchCurrentWorkersPaginated');
 Route::get('/employee/{id}', 'MainController@getSpecifiedEmployee');
+Route::get('/statistics', 'MainController@statistics');
+Route::get('/department/{id}', 'MainController@getDepartmentStatistics');
+Route::get('/title/{id}', 'MainController@getCurrentWorkersByTitlePaginated');

@@ -9,16 +9,19 @@
 
 <body>
   <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
+    <a href="/"><button class="btn btn-primary">Main</button></a>
     <div class="container">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-      <div class="collapse navbar-collapse m-0 p-0" id="navbarSupportedContent">
-        <form class="form-inline m-0 w-100 p-0" method="get" action="/search">
-          <input class="form-control mr-2 w-25" type="text" value="" placeholder="Name" name="name">
-          <input class="form-control mr-2 w-25" type="text" value="" placeholder="Surname" name="surname">
-          <button type="submit" class="btn btn-primary">Find</button>
-       	</form>
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+          <div class="collapse navbar-collapse m-0 p-0" id="navbarSupportedContent">
+            <form class="form-inline m-0 w-100 p-0" method="get" action="/search">
+              <input class="form-control mr-2 w-25" type="text" value="" placeholder="Name" name="name">
+              <input class="form-control mr-2 w-25" type="text" value="" placeholder="Surname" name="surname">
+              <button type="submit" class="btn btn-primary">Find</button>
+            </form>
+            </div>
       </div>
     </div>
+    <a href="/statistics"><button class="btn btn-primary">Statistics</button></a>   
   </nav>
   <div class="py-5">
     <div class="container-fluid">
@@ -49,9 +52,9 @@
         	<?php endif;?>
 	            <div class="col-md-6">
 	              <a href="/employee/{{$employee->emp_no}}"><h1 class="">{{$employee->first_name}} {{$employee->last_name}}</h1></a>
-	              <p class="lead">Works in {{$employee->dept_name}} departament</p>
+	              <p class="lead">Works in <a href="/department/{{$employee->dept_no}}">{{$employee->dept_name}} departament</a></p>
 	              <div class="blockquote">
-	                <p class="mb-0">Current title: {{$employee->title}}</p>
+	                <p class="mb-0">Current title: <a href="/title/{{$employee->title}}">{{$employee->title}}</a></p>
 	                <div class="blockquote-footer">Current Salary: ${{$employee->salary}}</div>
 	              </div>
 	            </div>
